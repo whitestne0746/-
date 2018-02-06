@@ -1,5 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import cv2
+from PIL import Image
+from PIL import ImageDraw
 
 Ref_CIX = np.array([[1, 1, 0, -1, -1, -1, 0, 1]])
 Ref_CIY = np.array([[0, 1, 1, 1, 0, -1, -1, -1]])
@@ -45,5 +48,21 @@ print(CIY)
 print(A)
 print(abs(sum(A[0])))
 
-plt.imshow(img, 'gray')
+im = cv2.imread('./img.png')
+print(im.shape)
+pilImg = Image.fromarray(np.uint8(im))
+ImageDraw.floodfill(pilImg, (121, 44), (255, 0, 0))
+#cv2.imshow('a', pilImg)
+# cv2.waitKey(0)
+print(pilImg)
+imgArray = np.asarray(pilImg)
+print(imgArray)
+area = 0
+print(imgArray[0][0])
+for y in range(pilImg.height):
+    for x in range(pilImg.width):
+        if all(imgArray[y][x] == [255, 0, 0]):
+            area += 1
+print(area)
+plt.imshow(pilImg)
 plt.show()

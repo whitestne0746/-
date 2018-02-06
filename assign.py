@@ -1,12 +1,15 @@
 """This is a test program."""
 
 import numpy as np
+import cv2
 import matplotlib.pyplot as plt
 import sys
 sys.setrecursionlimit(10000)
+from PIL import Image
+from PIL import ImageDraw
 
 
-class Image:
+class Chain:
     def __init__(self):
         self.count = 0
         self.img = np.zeros((256, 256))
@@ -52,8 +55,10 @@ class Image:
                 self.x = self.x + 1
                 self.y = self.y - 1
                 self.img[self.y][self.x] = 255
+        cv2.imwrite('img.png', self.img)
 
     def fill(self, x, y):
+        '''
         self.img[y][x] = 150
         # self.count += 1
         # print('{}'.format(self.count))
@@ -67,6 +72,10 @@ class Image:
             self.fill(x + 1, y)
         self.count += 1
         print('{}'.format(self.count))
+        '''
+        self.img = Image.open('./img.png')
+        print(self.img)
+        ImageDraw.floodfill(self.img, (x, y), (255, 0, 0), border=None)
 
     def show(self):
         print(self.img)
@@ -96,9 +105,8 @@ class Image:
         print('chain codeも含めた画素数: {}'.format(self.area))
 
 
-img = Image()
+img = Chain()
 img.chain_code()
-img.show()
 img.fill(121, 44)
 img.show()
 # img.calculate_area()
